@@ -28,20 +28,34 @@ window.addEventListener("DOMContentLoaded", function () {
       });
       addFirst()
       addLast()
-      
+
 
       slides.forEach((item,i)=>{
-         const dot = document.createElement('div');
+         const dot = document.createElement('button');
          if (i===slideIndex-1){
             dot.classList.add('dot')
             dot.classList.add('active')
          }else{
             dot.classList.add('dot')
          }
+         dot.style.border='none'
          dots.appendChild(dot)
       })
       const dot = document.querySelectorAll(".dot");
-
+      const disabl = ()=> {
+         dot.forEach(item=>{
+            item.setAttribute('disabled', '')
+         })
+         prev.setAttribute('disabled', '')
+         next.setAttribute('disabled', '')
+      }
+      const activeted = ()=> {
+         dot.forEach(item=>{
+            item.removeAttribute('disabled')
+         })
+         prev.removeAttribute('disabled')
+         next.removeAttribute('disabled')
+      }
 
    const checkActiveDot = () => {
       dot.forEach((item,i)=>{
@@ -53,6 +67,7 @@ window.addEventListener("DOMContentLoaded", function () {
       })
    }
    const animation = (type)=>{
+      disabl()
       let start = Date.now();
       let currentOfset= offset;
       let time = 2000
@@ -62,6 +77,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
         if (timePassed >= time) {
           clearInterval(time);
+          activeted()
           return;
         }
         switch(type){
@@ -111,7 +127,6 @@ window.addEventListener("DOMContentLoaded", function () {
 		} else {
        animation("plus")
       offset += +width.slice(0, width.length - 2);
-      console.log(offset)
 		}
 		if (slideIndex == slides.length) {
 			slideIndex = 1;
